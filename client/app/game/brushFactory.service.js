@@ -21,13 +21,13 @@ function BrushFactory(Brush, arrayUtils) {
             return brush;
         },
         missile: function() {
-        	var brush = new Brush(11);
-        	brush.pattern[6][6] = true;
-        	brush.pattern[6][5] = true;
-        	brush.pattern[6][4] = true;
-        	brush.pattern[5][4] = true;
-        	brush.pattern[4][5] = true;
-        	return brush;
+            var brush = new Brush(11);
+            brush.pattern[6][6] = true;
+            brush.pattern[6][5] = true;
+            brush.pattern[6][4] = true;
+            brush.pattern[5][4] = true;
+            brush.pattern[4][5] = true;
+            return brush;
         },
         custom: function() {
             return new Brush(11);
