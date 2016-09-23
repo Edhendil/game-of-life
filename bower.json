@@ -1,0 +1,21 @@
+{
+  "name": "game-life",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "2.2.4",
+    "bootstrap": "3.3.6",
+    "angular": "1.5.6",
+    "angular-ui-router": "0.3.1",
+    "angular-underscore-module": "1.0.1",
+    "underscore" : "1.8.3"
+  },
+  "resolutions": {
+    "angular": "1.5.6"
+  },
+  "overrides": {
+    "bootstrap": {
+        "main": ["dist/css/bootstrap.css", "dist/js/bootstrap.js"]
+    }
+  },
+  "private": true
+}

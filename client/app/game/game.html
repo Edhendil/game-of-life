@@ -1,0 +1,182 @@
+	<div class="container-fluid text-center header">
+		<div class="container">
+			<h1>Game of life</h1>
+		</div>
+	</div>
+
+	<div class="container-fluid canvas-band">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 text-center">
+					<canvas id="lifeStage" draggable="false" ng-mousedown="gameController.handleCanvasClick($event)" ng-mousemove="gameController.handleCanvasMove($event)">Your browser does not support canvas</canvas>
+				</div>
+				<div class="col-md-6">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-default">
+								 	<div class="panel-heading">
+								 		<h3 class="panel-title">Options</h3>
+								 	</div>
+								  	<div class="panel-body">
+								    	<form class="form-horizontal">
+											<div class="form-group">
+								    			<div class="col-md-3">
+								    				<label class="control-label" for="fps">FPS limit</label>
+								    			</div>
+								    			<div class="col-md-5">
+													<input id="fps" type="text" class="form-control" value="100" ng-model="gameController.fps" ng-change="gameController.handleFpsChange()" />
+												</div>
+												<div class="col-md-2">
+														<button id="tickerButton" type="button" class="btn btn-info btn-block" ng-click="gameController.handleTickerButton()" ng-bind="gameController.tickerButtonText">Start</button>
+												</div>
+												<div class="col-md-2">
+														<button type="button" class="btn btn-info btn-block" ng-click="gameController.performStep()" ng-disabled="gameController.gameRunning">Step</button>
+												</div>
+											</div>
+											<div class="form-group">
+								    			<div class="col-md-3">
+								    				<label class="control-label" for="stateSelect">State</label>
+								    			</div>
+								    			<div class="col-md-5">
+													<select id="stateSelect" class="form-control" ng-model="gameController.selectedState">
+														<option ng-repeat="(stateName, stateFunction) in gameController.availableStates" value="{{ stateName }}">{{ stateName }}</option>
+													</select>
+												</div>
+												<div class="col-md-4">
+													<button id="setStateButton" type="button" class="btn btn-info btn-block" ng-click="gameController.handleSetStateButton()">Set state</button>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-md-3">
+								    				<label class="control-label" for="rulesSelect">Rules</label>
+								    			</div>
+								    			<div class="col-md-5">
+													<select id="rulesSelect" class="form-control" ng-model="gameController.selectedRuleSet">
+														<option ng-repeat="(rulesName, rulesDefinition) in gameController.availableRules" value="{{ rulesName }}">{{ rulesName }}</option>
+													</select>
+												</div>
+												<div class="col-md-4">
+													<button type="button" class="btn btn-info btn-block" ng-click="gameController.loadRulePreset()">Set rules</button>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-md-3">
+													Survive
+												</div>
+												<div ng-repeat="i in 9 | range" class="col-xs-1 text-center">
+													<input type="checkbox" ng-model="gameController.selectedRules.survive[i]" />
+												</div>
+												<div class="col-md-3">
+													Born
+												</div>
+												<div ng-repeat="i in 9 | range" class="col-xs-1 text-center">
+													<input type="checkbox" ng-model="gameController.selectedRules.create[i]" />
+												</div>
+												<div class="col-md-3">
+													Neighbours
+												</div>
+												<div ng-repeat="i in 9 | range" class="col-xs-1 text-center">
+													{{i}}
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-md-3">
+													<label class="control-label" for="brushSelect">Brush</label>
+												</div>
+												<div class="col-md-5">
+													<select id="brushSelect" class="form-control" ng-model="gameController.selectedBrush">
+														<option ng-repeat="(brushName, brushDefinition) in gameController.availableBrushes" value="{{brushName}}">{{brushName}}</option>
+													</select>
+												</div>
+												<div class="col-md-4">
+													<button type="button" class="btn btn-info btn-block" ng-click="gameController.loadBrush()">Load pattern</button>
+												</div>
+											</div>
+											<div class="form-group" draggable="false">
+												<div class="col-md-3">
+													<label class="control-label" for="brushPattern">Pattern</label>
+												</div>
+												<div class="col-md-5">
+													<table id="brushPattern" oncontextmenu="return false;">
+														<tr ng-repeat="j in gameController.brush.size | range">
+															<td class="brushCell" ng-style="{ 'background-color': gameController.brush.pattern[i][j] == null ? 'grey' : gameController.brush.pattern[i][j] ? 'black' : 'white'}" ng-repeat="i in gameController.brush.size | range" ng-mousedown="gameController.changeBrush($event, i, j)" ng-mouseenter="gameController.brushMoveChange($event, i, j)"></td>
+														</tr>
+													</table>
+												</div>
+												<div class="col-md-4">
+													<div class="row" style="padding-bottom: 5px;">
+														<div class="col-xs-3">
+															<div class="brushCell" style="margin-right: 5px; background-color: black;"></div>
+														</div>
+														<div class="col-xs-9">
+															<span> Left click</span>
+														</div>
+													</div>
+													<div class="row" style="padding-bottom: 5px;">
+														<div class="col-xs-3">
+															<div class="brushCell" style="margin-right: 5px; background-color: white;"></div>
+														</div>
+														<div class="col-xs-9">
+															<span> Right click</span>
+														</div>
+													</div>
+													<div class="row" style="padding-bottom: 5px;">
+														<div class="col-xs-3">
+															<div class="brushCell" style="margin-right: 5px; background-color: grey;"></div>
+														</div>
+														<div class="col-xs-9">
+															<span> Ctrl-click</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-md-3">
+													<label class="control-label" for="brushScale">Brush scale</label>
+												</div>
+												<div class="col-md-5">
+													<input id="brushScale" type="integer" class="form-control" ng-model="gameController.brushScale" />
+												</div>
+											</div>
+										</form>
+								  	</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="panel panel-default">
+								 	<div class="panel-heading">
+								 		<h3 class="panel-title">Statistics</h3>
+								 	</div>
+								  	<div class="panel-body">
+								  		<div class="row">
+								  			<div class="col-md-3">
+								  				FPS
+								  			</div>
+								  			<div class="col-md-4">
+								  				{{gameController.realFps}}
+								  			</div>
+								  		</div>
+								  	</div>
+								</div>
+							</div>	
+						</div>
+						
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="container">
+			<div class="footer-content">
+				<div class="pull-left">
+			      <span>&copy; Tomasz Krug 2016</span>
+			    </div>
+			    <div class="pull-right">
+			    	check out my other projects <a href="https://edhendil.github.io">here</a>
+			    </div>
+		    </div>
+		</div>
+	</div>
