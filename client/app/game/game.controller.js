@@ -108,7 +108,7 @@ function GameController($scope, $interval, gameStateFactory, canvasService, Rule
     };
 
     self.handleCanvasMove = function(e) {
-        if (e.which === 1) {
+        if (detectLeftButton(e)) {
             var pos = canvasService.getMousePos(e);
             canvasBrushPaint(pos);
         }
@@ -127,19 +127,17 @@ function GameController($scope, $interval, gameStateFactory, canvasService, Rule
     };
 
     self.changeBrush = function(event, x, y) {
-        if (event.ctrlKey) {
+        if (detectLeftButton(event) && event.ctrlKey) {
             self.brush.pattern[x][y] = null;
-        } else if (event.which === 3) {
+        } else if (detectRightButton(event)) {
             self.brush.pattern[x][y] = false;
-        } else {
+        } else if (detectLeftButton(event)) {
             self.brush.pattern[x][y] = true;
         }
     };
 
     self.brushMoveChange = function(event, x, y) {
-        if (event.which === 1 || event.which === 3) {
-            self.changeBrush(event, x, y);
-        }
+        self.changeBrush(event, x, y);
     };
 
     self.loadBrush = function() {
@@ -169,6 +167,20 @@ function GameController($scope, $interval, gameStateFactory, canvasService, Rule
     function setLifeData(data) {
         gameState = data;
         canvasService.updateCanvas(data);
+    }
+
+    function detectLeftButton(evt) {
+        if (evt.buttons !== undefined) {
+            return evt.buttons === 1;
+        }
+        return evt.which === 1;
+    }
+
+    function detectRightButton(evt) {
+        if (evt.buttons !== undefined) {
+            return evt.buttons === 2;
+        }
+        return evt.which === 3;
     }
 
     function paint(lifeState, x, y, brush) {
