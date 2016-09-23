@@ -1,0 +1,21 @@
+gems: [jekyll-paginate]
+
+# Dependencies
+markdown:         kramdown
+highlighter:      Rouge
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Tomasz Krug
+tagline:          'Game of life'
+description:      'Game of life demo'
+url:              https://edhendil.github.io
+baseurl:          /game-of-life/
+
+author:
+  name:           'Tomasz Krug'
+  url:            https://edhendil.github.io
+
+paginate:         5
