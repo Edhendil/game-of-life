@@ -213,13 +213,13 @@ BrushFactory.$inject = ["Brush", "arrayUtils"];function BrushFactory(Brush, arra
             return brush;
         },
         missile: function() {
-        	var brush = new Brush(11);
-        	brush.pattern[6][6] = true;
-        	brush.pattern[6][5] = true;
-        	brush.pattern[6][4] = true;
-        	brush.pattern[5][4] = true;
-        	brush.pattern[4][5] = true;
-        	return brush;
+            var brush = new Brush(11);
+            brush.pattern[6][6] = true;
+            brush.pattern[6][5] = true;
+            brush.pattern[6][4] = true;
+            brush.pattern[5][4] = true;
+            brush.pattern[4][5] = true;
+            return brush;
         },
         custom: function() {
             return new Brush(11);
@@ -504,19 +504,19 @@ GameController.$inject = ["$scope", "$interval", "gameStateFactory", "canvasServ
         canvasService.updateCanvas(data);
     }
 
-	function detectLeftButton(evt) {
-	    if (evt.buttons !== undefined) {
-	        return evt.buttons === 1;
-	    }
-	    return evt.which === 1;
-	}
+    function detectLeftButton(evt) {
+        if (evt.buttons !== undefined) {
+            return evt.buttons === 1;
+        }
+        return evt.which === 1;
+    }
 
-	function detectRightButton(evt) {
-		if (evt.buttons !== undefined) {
-	        return evt.buttons === 2;
-	    }
-	    return evt.which === 3;
-	}
+    function detectRightButton(evt) {
+        if (evt.buttons !== undefined) {
+            return evt.buttons === 2;
+        }
+        return evt.which === 3;
+    }
 
     function paint(lifeState, x, y, brush) {
         var scaledSize = brush.size * self.brushScale;
